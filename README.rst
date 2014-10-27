@@ -4,8 +4,6 @@ mediagoblin-search
 
 This plugin adds support for displaying media in Gnu MediaGoblin based on simple search queries.
 
-Complete the Piwik install and configuration before installing the Piwik plugin for Gnu MediaGoblin.
-
 Set up the search plugin
 ===========================
 
