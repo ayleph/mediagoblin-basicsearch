@@ -30,7 +30,8 @@
 {% block mediagoblin_content %}
   <form method="GET" action="" id="search">
     {{ wtforms_util.render_divs(form) }}
-    <input type=submit />
+    {#<input type=submit />#}
+    <input type="submit" value="{% trans %}Search{% endtrans %}" class="button_action" />
   </form>
   <h2>{% trans %}Search results{% endtrans %}</h2>
   {{ object_gallery(request, media_entries, pagination) }}

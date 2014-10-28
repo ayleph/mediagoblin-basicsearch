@@ -17,6 +17,4 @@ import wtforms
 from mediagoblin.tools.translate import lazy_pass_to_ugettext as _
 
 class SearchForm(wtforms.Form):
-    query = wtforms.StringField(
-        _('Search'),
-        [wtforms.validators.InputRequired()])
+    query = wtforms.StringField(_('Search media'))
