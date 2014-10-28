@@ -2,7 +2,7 @@
 mediagoblin-search
 =====================
 
-This plugin adds support for displaying media in Gnu MediaGoblin based on simple search queries.
+This plugin adds support for displaying media in Gnu MediaGoblin based on simple search queries. In its current state, the search function will query the title and description fields of processed media entries for the exact input phrase (case-insensitive). Multiple search terms are not supported at this time.
 
 Set up the search plugin
 ===========================
