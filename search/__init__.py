@@ -13,37 +13,43 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-import logging
-import os
 from pkg_resources import resource_filename
+import os
+import logging
 
-from mediagoblin.tools.pluginapi import (register_template_path,
-                                        register_routes,
-                                        register_template_hooks)
-#from mediagoblin.plugins.search.views import (get_root_view)
+from mediagoblin.tools import pluginapi
 from mediagoblin.tools.staticdirect import PluginStatic
-
-
 _log = logging.getLogger(__name__)
 
 
-_setup_plugin_called = 0
+PLUGIN_DIR = os.path.dirname(__file__)
+
 
 def setup_plugin():
-    global _setup_plugin_called
     _log.info('Setting up search...')
+    config = pluginapi.get_config('mediagoblin.plugins.search')
 
-    my_plugin_dir = os.path.dirname(__file__)
-    template_dir = os.path.join(my_plugin_dir, 'templates')
-    register_template_path(template_dir)
-    register_routes([
-        ('search-results', '/search',
-        'mediagoblin.plugins.search.views:search_results_view')])
+    routes = [
+        ('mediagoblin.plugins.search',
+         '/search/',
+         'mediagoblin.plugins.search.views:search_results_view')]
+
+    pluginapi.register_routes(routes)
+    pluginapi.register_template_path(os.path.join(PLUGIN_DIR, 'templates'))
+
+    search_link_style = config.get('SEARCH_LINK_STYLE')
+    _log.debug("Search link style was specified as: %r", search_link_style)
+    if search_link_style == 'button':
+        header_template = '/mediagoblin/plugins/search/search_link_button.html'
+    elif search_link_style == 'none':
+        header_template = '/mediagoblin/plugins/search/search_link_none.html'
+    else:
+        header_template = '/mediagoblin/plugins/search/search_link_default.html'
+
+    pluginapi.register_template_hooks(
+        #{'header_extra': 'mediagoblin/plugins/search/search_link_default.html'})
+        {'header_extra': header_template})
 
 hooks = {
-    'setup': setup_plugin,
-    'static_setup': lambda: PluginStatic(
-        'search',
-        resource_filename('mediagoblin.plugins.search', 'static')
-     ),
+    'setup': setup_plugin
 }
