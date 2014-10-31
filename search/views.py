@@ -62,7 +62,8 @@ def search_results_view(request, page):
             media_entries = pagination()
 
     return render_to_response(
-        request, 'search/results.html',
+        request,
+        'mediagoblin/plugins/search/results.html',
         {'media_entries': media_entries,
          'pagination': pagination,
          'form': form})
