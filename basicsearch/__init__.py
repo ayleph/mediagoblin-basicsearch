@@ -26,13 +26,13 @@ PLUGIN_DIR = os.path.dirname(__file__)
 
 
 def setup_plugin():
-    _log.info('Setting up search...')
-    config = pluginapi.get_config('mediagoblin.plugins.search')
+    _log.info('Setting up basic search...')
+    config = pluginapi.get_config('mediagoblin.plugins.basicsearch')
 
     routes = [
-        ('mediagoblin.plugins.search',
+        ('mediagoblin.plugins.basicsearch',
          '/search/',
-         'mediagoblin.plugins.search.views:search_results_view')]
+         'mediagoblin.plugins.basicsearch.views:search_results_view')]
 
     pluginapi.register_routes(routes)
     pluginapi.register_template_path(os.path.join(PLUGIN_DIR, 'templates'))
@@ -40,14 +40,13 @@ def setup_plugin():
     search_link_style = config.get('SEARCH_LINK_STYLE')
     _log.debug("Search link style was specified as: %r", search_link_style)
     if search_link_style == 'button':
-        header_template = '/mediagoblin/plugins/search/search_link_button.html'
+        header_template = '/mediagoblin/plugins/basicsearch/search_link_button.html'
     elif search_link_style == 'none':
-        header_template = '/mediagoblin/plugins/search/search_link_none.html'
+        header_template = '/mediagoblin/plugins/basicsearch/search_link_none.html'
     else:
-        header_template = '/mediagoblin/plugins/search/search_link_default.html'
+        header_template = '/mediagoblin/plugins/basicsearch/search_link_default.html'
 
     pluginapi.register_template_hooks(
-        #{'header_extra': 'mediagoblin/plugins/search/search_link_default.html'})
         {'header_extra': header_template})
 
 hooks = {

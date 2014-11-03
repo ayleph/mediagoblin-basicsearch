@@ -21,7 +21,7 @@ from mediagoblin.decorators import uses_pagination
 from mediagoblin.tools.response import render_to_response
 from mediagoblin.tools.pagination import Pagination
 
-from mediagoblin.plugins.search import forms as search_forms
+from mediagoblin.plugins.basicsearch import forms as search_forms
 from mediagoblin.tools.translate import lazy_pass_to_ugettext as _
 from mediagoblin.meddleware.csrf import csrf_exempt
 from sqlalchemy import and_, or_
@@ -63,7 +63,7 @@ def search_results_view(request, page):
 
     return render_to_response(
         request,
-        'mediagoblin/plugins/search/results.html',
+        'mediagoblin/plugins/basicsearch/results.html',
         {'media_entries': media_entries,
          'pagination': pagination,
          'form': form})
