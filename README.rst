@@ -11,13 +11,13 @@ Set up the search plugin
 
     git clone https://github.com/ayleph/mediagoblin-basicsearch.git
 
-2. Copy the search folder to your MediaGoblin plugin path::
+2. Copy the basicsearch folder to your MediaGoblin plugin path::
 
-    cp -r search /path/to/mediagoblin/mediagoblin/plugins/
+    cp -r basicsearch /path/to/mediagoblin/mediagoblin/plugins/
     
 3. Add the following entry to your mediagoblin_local.ini file in the ``[plugins]`` section::
 
-    [[mediagoblin.plugins.search]]
+    [[mediagoblin.plugins.basicsearch]]
 
 Configure the search plugin
 ===========================
@@ -30,11 +30,11 @@ The search plugin adds a search link to the top header bar of the MediaGoblin in
 
 If you choose to specify the display style, add it to your mediagoblin_local.ini like this::
 
-    [[mediagoblin.plugins.search]]
+    [[mediagoblin.plugins.basicsearch]]
     SEARCH_LINK_STYLE = 'link'
 
 If you choose style ``none`` and wish to create your own search link, use the syntax below as a guide::
 
-    <a href="{{ request.urlgen('mediagoblin.plugins.search') }}">
+    <a href="{{ request.urlgen('mediagoblin.plugins.basicsearch') }}">
     {%- trans %}Search{% endtrans -%}
     </a>
