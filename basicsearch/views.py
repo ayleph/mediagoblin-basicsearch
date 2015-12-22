@@ -46,15 +46,15 @@ def search_results_view(request, page):
             query = '%' + request.GET.get('query') + '%'
 
         #cursor = MediaEntry.query.filter(MediaEntry.uploader==1).\
-
-            matches = MediaEntry.query.filter(
+            matches = MediaEntry.query.filter(MediaEntry.id==MediaTag.media_entry).filter(
                 and_(
                     MediaEntry.state == u'processed',
                     or_(
                         MediaEntry.title.ilike(query),
-                        MediaEntry.description.ilike(query)
+                        MediaEntry.description.ilike(query),
+                        MediaTag.name.ilike(query)
                     )
-                )).order_by(MediaEntry.created.desc())
+               )).order_by(MediaEntry.created.desc())
 
             #_log.info(matches)
 
