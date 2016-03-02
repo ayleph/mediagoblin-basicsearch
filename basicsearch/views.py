@@ -54,7 +54,7 @@ def search_results_view(request, page):
                         MediaEntry.description.ilike(query),
                         MediaTag.name.ilike(query)
                     )
-               )).order_by(MediaEntry.created.desc())
+               )).order_by(MediaEntry.title)
 
             #_log.info(matches)
 
