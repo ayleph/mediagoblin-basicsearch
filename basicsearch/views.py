@@ -41,25 +41,35 @@ def search_results_view(request, page):
         request.form)
 
     #if request.method == 'GET':
-    if request.GET.get('query') != None:
-        if request.GET.get('query') != '':
-            query = '%' + request.GET.get('query') + '%'
+    if (request.GET.get('query') != None and
+        request.GET.get('query') != ''):
+        terms = []
+        skipterms = [ 'a', 'an', 'the', 'of' ]
+        for query in request.GET.get('query').split():
+            lquery = query.lower()
+            if lquery not in skipterms:
+                terms.append('%' + lquery + '%')
+
+        statements = []
+        if len(terms) == 0:
+           statements.append(True)
+        else:
+           for term in terms:
+              statements.append(MediaEntry.title.ilike(term))
+              statements.append(MediaEntry.description.ilike(term))
+              statements.append(MediaTag.name.ilike(term))
 
         #cursor = MediaEntry.query.filter(MediaEntry.uploader==1).\
-            matches = MediaEntry.query.filter(MediaEntry.id==MediaTag.media_entry).filter(
-                and_(
-                    MediaEntry.state == u'processed',
-                    or_(
-                        MediaEntry.title.ilike(query),
-                        MediaEntry.description.ilike(query),
-                        MediaTag.name.ilike(query)
-                    )
-               )).order_by(MediaEntry.title)
+        matches = MediaEntry.query.filter(MediaEntry.id==MediaTag.media_entry).filter(
+            and_(
+                MediaEntry.state == u'processed',
+                or_(*statements)
+            )).order_by(MediaEntry.title)
 
-            #_log.info(matches)
+        #_log.info(matches)
 
-            pagination = Pagination(page, matches)
-            media_entries = pagination()
+        pagination = Pagination(page, matches)
+        media_entries = pagination()
 
     return render_to_response(
         request,
