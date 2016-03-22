@@ -40,7 +40,6 @@ def search_results_view(request, page):
     form = search_forms.SearchForm(
         request.form)
 
-    #if request.method == 'GET':
     if (request.GET.get('query') != None and
         request.GET.get('query') != ''):
         terms = []
@@ -59,14 +58,11 @@ def search_results_view(request, page):
               statements.append(MediaEntry.description.ilike(term))
               statements.append(MediaTag.name.ilike(term))
 
-        #cursor = MediaEntry.query.filter(MediaEntry.uploader==1).\
         matches = MediaEntry.query.filter(MediaEntry.id==MediaTag.media_entry).filter(
             and_(
                 MediaEntry.state == u'processed',
                 or_(*statements)
             )).order_by(MediaEntry.title)
-
-        #_log.info(matches)
 
         pagination = Pagination(page, matches)
         media_entries = pagination()
