@@ -29,7 +29,8 @@ Set up the search plugin
   $ cp -r mediagoblin-basicsearch/basicsearch /path/to/mediagoblin/mediagoblin/plugins/
     
 3. Enable the mediagoblin-basicsearch plugin by adding the following 
-   line to the ``[plugins]`` section of your mediagoblin_local.ini file.
+   line to the ``[plugins]`` section of your mediagoblin.ini file (or 
+   mediagoblin_local.ini file if you're using an older release).
 
 ::
 
@@ -55,7 +56,7 @@ search link display style.
   create your own search link in a user_dev template or custom theme.
 
 If you choose to specify the display style, add it to your 
-mediagoblin_local.ini like this.
+mediagoblin.ini file like this.
 
 ::
 
