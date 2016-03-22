@@ -2,7 +2,7 @@
 mediagoblin-basicsearch
 =======================
 
-This plugin adds support for displaying media in GNU MediaGoblin based on simple search queries. In its current state, the search function will query the title and description fields of processed media entries for the exact input phrase (case-insensitive). Multiple search terms are not supported at this time.
+This plugin adds support for displaying media in GNU MediaGoblin based on simple search queries. In its current state, the search function will query the title and description fields of processed media entries for the exact input phrase (case-insensitive). Multiple search terms are searched with a match on any term included in the results.
 
 This plugin relies on the ``header_extra`` template hook which was introduced in the MediaGoblin 0.7.2-dev codebase. If you're running a previous version of GNU MediaGoblin, the search link will not appear on your instance unless you apply the change in commit aa50cab_.
 
