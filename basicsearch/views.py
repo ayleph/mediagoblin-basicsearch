@@ -29,6 +29,7 @@ from sqlalchemy import and_, or_
 import logging
 _log = logging.getLogger(__name__)
 
+
 @csrf_exempt
 @uses_pagination
 def search_results_view(request, page):
@@ -37,8 +38,7 @@ def search_results_view(request, page):
     pagination = None
     query = None
 
-    form = search_forms.SearchForm(
-        request.form)
+    form = search_forms.SearchForm(request.form)
 
     if (request.GET.get('query') != None and
         request.GET.get('query') != ''):
@@ -49,19 +49,27 @@ def search_results_view(request, page):
             if lquery not in skipterms:
                 terms.append('%' + lquery + '%')
 
-        statements = []
+        media_entry_statements = []
+        media_tag_statements = []
         if len(terms) == 0:
-           statements.append(True)
+           media_entry_statements.append(True)
+           media_tag_statements.append(True)
         else:
            for term in terms:
-              statements.append(MediaEntry.title.ilike(term))
-              statements.append(MediaEntry.description.ilike(term))
-              statements.append(MediaTag.name.ilike(term))
+              media_entry_statements.append(MediaEntry.title.ilike(term))
+              media_entry_statements.append(MediaEntry.description.ilike(term))
+              media_tag_statements.append(MediaTag.name.ilike(term))
 
-        matches = MediaEntry.query.filter(MediaEntry.id==MediaTag.media_entry).filter(
+        matches = MediaEntry.query.filter(
             and_(
                 MediaEntry.state == u'processed',
-                or_(*statements)
+                or_(
+                    and_(
+                        MediaEntry.id==MediaTag.media_entry,
+                        *media_tag_statements
+                    ),
+                    *media_entry_statements
+                )
             )).order_by(MediaEntry.title)
 
         pagination = Pagination(page, matches)
